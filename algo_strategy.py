@@ -181,18 +181,40 @@ class AlgoStrategy(gamelib.AlgoCore):
         Now lets send out 3 Pings to hopefully score, we can spawn multiple 
         information units in the same location.
         """
-        if game_state.can_spawn(PING, [10, 3], 3):
-            game_state.attempt_spawn(PING, [10, 3], 3)
+        if game_state.turn_number == 1:
+            if game_state.can_spawn(PING, [10, 3], 3):
+                game_state.attempt_spawn(PING, [10, 3], 3)
             
-        if game_state.turn_number == 2:
+        elif game_state.turn_number == 2:
             if game_state.can_spawn(EMP, [3,10]):
-                game_state.attempt_spawn(PING, [3, 10])
+                game_state.attempt_spawn(EMP, [3, 10])
                 
             if game_state.can_spawn(SCRAMBLER, [10, 3], ):
                 game_state.attempt_spawn(SCRAMBLER, [10, 3], )
                 
-        if game_state.turn_number >= 3:
-            
+        elif game_state.turn_number >= 3:
+            if game_state.can_spawn(SCRAMBLER, [10,3],3):
+                game_state.can_spawn(SCRAMBLER, [10,3],3)
+            if game_state.can_spawn(EMP, [3,10]):
+                game_state.can_spawn(EMP, [3,10])
+        elif game_state.turn_number == 4:
+                while game_state.get_resource(game_state.BITS) > 0:
+                    if game_state.can_spawn(PING, [13, 0]):
+                        game_state.can_spawn(PING, [13, 0])
+       else:
+            if (game_state.turn_number)%2==0:
+                if game_state.can_spawn(PING, [13,0]):
+                    while game_state.get_resource(game_state.BITS) > 6:
+                        if game_state.can_spawn(PING, [13, 0]):
+                            game_state.can_spawn(PING, [13, 0])
+            else:
+                if game_state.can_spawn(EMP, [3,10]):
+                    game_state.attempt_spawn(EMP, [3,10])
+                if game_state.can_spawn(SCRAMBLER, [11,2]):
+                    game_state.attempt_spawn(EMP, [11,2])
+                 
+                
+                    
         """
         NOTE: the locations we used above to spawn information units may become 
         blocked by our own firewalls. We'll leave it to you to fix that issue 
